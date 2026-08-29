@@ -1,0 +1,15 @@
+# Virtual Environment
+venv/
+*.venv
+
+# Python Bytecode & Cache
+__pycache__/
+*.pyc
+creditcard.csv
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# System / OS Files
+.DS_Store
+
