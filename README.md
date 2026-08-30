@@ -1,26 +1,35 @@
-# Credit Card Fraud Detection (IBM Snap ML vs. Scikit-Learn)
+# 💳 Credit Card Fraud Detection Pipeline
 
-## Overview
-This project focuses on building and evaluating machine learning models to identify fraudulent credit card transactions. Utilizing a dataset of 284,807 transactions, the analysis addresses severe class imbalance and compares the computational efficiency and performance of **IBM Snap ML** against standard **Scikit-Learn** implementations.
+An end-to-end, modular machine learning pipeline built in Python to detect fraudulent credit card transactions. 
 
-## Key Financial Insights & Data Discovery
-* **Extreme Class Imbalance:** Fraudulent transactions represent a tiny fraction of total activity, requiring class-weighted loss functions (`sample_weight='balanced'`) during model training.
-* **Transaction Skewness:** 90% of transaction amounts are $203.00 or lower, yet the maximum reaches $25,691.16. Logarithmic scaling was applied to visualize the long-tail distribution effectively.
-* **Feature Anonymization:** Predictors $V_1$ through $V_{28}$ represent PCA-transformed features to ensure consumer data privacy.
+This project takes a raw dataset of **284,807 European cardholder transactions** and applies class-weight balancing, feature normalization ($L_1$ norm), and Scikit-Learn models to identify fraud with high recall and precision.
 
-## Modeling & Performance Benchmarks
-Two primary classifiers were trained and evaluated on an $L_1$-normalized feature space:
+---
 
-1. **Decision Tree Classifier (`max_depth=4`)**
-   * Benchmarked training times between Scikit-Learn and Snap ML on scaled transaction data.
-2. **Support Vector Machine (SVM)**
-   * **Scikit-Learn Hinge Loss:** ~0.23367
-   * **Snap ML Hinge Loss:** ~0.22818
-   * *Conclusion:* Both models achieved comparable decision boundaries, with Snap ML offering faster execution times suitable for large-scale financial data pipelines.
+## 🎯 Key Business Results
 
-## Repository Structure
-```text
-├── credit_card_fraud_detection.ipynb  # Main Jupyter analysis notebook
-├── .gitignore                         # Ignores venv, bytecode, and CSV data
-└── README.md                          # Executive project summary
+* **High Fraud Detection Rate:** Successfully identified **87.8% (130 out of 148)** fraudulent transactions in the test dataset.
+* **Fast Processing Speed:** Model training and evaluation complete in under **2 seconds**.
+* **Model Benchmark (SVM):** Achieved an **ROC-AUC score of 0.9740**.
 
+---
+
+## 📊 Model Evaluation & Confusion Matrix
+
+Because financial fraud represents less than **0.2%** of all transactions, standard accuracy is misleading. The model was evaluated using Precision, Recall and Hinge Loss metrics to prioritize catching fraudulent events without generating excessive false alarms.
+
+![SVM Confusion Matrix](confusion_matrix.png)
+
+---
+
+## 📁 Pipeline Architecture
+
+The project is structured into 5 independent, modular Python scripts following software engineering best practices:
+
+* `01_download_data.py`: Downloads and extracts the dataset (`creditcard.csv`).
+* `02_data_preprocessing.py`: Scales transaction amounts, normalizes features, handles class imbalance and splits data (70/30).
+* `03_train_decision_tree.py`: Trains a Decision Tree Classifier and evaluates baseline ROC-AUC.
+* `04_train_svm.py`: Trains a Support Vector Machine (`LinearSVC`) with balanced class weights.
+* `05_evaluate_and_plot.py`: Computes classification reports and exports visual evaluation metrics (`confusion_matrix.png`).
+
+---
